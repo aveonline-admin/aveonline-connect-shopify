@@ -3,7 +3,7 @@
 client_id = "04f9e383c62d9c03fc7db46b48100048"
 name = "aveonline-connect"
 handle = "aveonline-connect"
-application_url = "https://spelling-rays-presidential-refrigerator.trycloudflare.com"
+application_url = "https://modular-mime-nova-carnival.trycloudflare.com"
 embedded = true
 
 [build]
@@ -26,7 +26,7 @@ api_version = "2025-07"
 scopes = "write_products"
 
 [auth]
-redirect_urls = ["https://spelling-rays-presidential-refrigerator.trycloudflare.com/auth/callback", "https://spelling-rays-presidential-refrigerator.trycloudflare.com/auth/shopify/callback", "https://spelling-rays-presidential-refrigerator.trycloudflare.com/api/auth/callback"]
+redirect_urls = ["https://modular-mime-nova-carnival.trycloudflare.com/auth/callback", "https://modular-mime-nova-carnival.trycloudflare.com/auth/shopify/callback", "https://modular-mime-nova-carnival.trycloudflare.com/api/auth/callback"]
 
 [pos]
 embedded = false
