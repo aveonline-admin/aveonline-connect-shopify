@@ -23,7 +23,7 @@ export const FormAuth = ({ ...props }: FormAuthProps) => {
 
     return <>
 
-        <fetcher.Form method="post">
+        <fetcher.Form method="post" >
             <BlockStack gap="200">
                 <Box>
                     <label
@@ -69,16 +69,22 @@ export const FormAuth = ({ ...props }: FormAuthProps) => {
                         >
                             <input type="hidden" name="_action" value="saveConfig" />
                             <Button
-                                onClick={() => {
-                                    alert("onClick");
-                                }}
-                                // disabled={isValidData != true}
-                                onClickDisabled={onSubmitData}
-                                loader={loaderSubmit}
+                                loader={fetcher.state == "submitting"}
                             >
                                 Guardar configuración
                             </Button>
                         </div>
+                        {/* Loader durante el submit */}
+                        {fetcher.state === "submitting" && <p>Enviando...</p>}
+
+                        {/* Mensajes después de la respuesta */}
+                        {fetcher.data?.success && (
+                            <p style={{ color: "green" }}>✅ Guardado con éxito</p>
+                        )}
+                        {fetcher.data?.success === false && (
+                            <p style={{ color: "red" }}>❌ {fetcher.data.message}</p>
+                        )}
+                        {JSON.stringify(fetcher.formData, null, 2) }
                     </BlockStack>
                 </Box>
             </BlockStack>

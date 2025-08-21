@@ -1,5 +1,7 @@
-import { ActionFunctionArgs } from "@remix-run/node";
+import { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { AdminApiContextWithoutRest } from "node_modules/@shopify/shopify-app-remix/dist/ts/server/clients";
+import { authenticate } from "../../shopify.server";
+import { json } from "@remix-run/node";
 
 
 export interface onGetDataProps {
@@ -41,11 +43,14 @@ export class GraphqlAuth {
 
     onSaveData = async ({ admin, request }: onSaveDataProps) => {
         const form = await request.formData();
-        if (form.get("_action") === "saveConfig") {
+        try {
             const active = form.get("active");
             const user = form.get("user");
             const password = form.get("password");
 
+            if (!user) {
+                throw new Error("El usuario es requerido");
+            }
             // 1. Obtener el ID de instalación de la app
             const respond = await admin.graphql(`
                 query {
@@ -94,10 +99,26 @@ export class GraphqlAuth {
                     },
                 }
             );
-            return { success: true };
-        }
-        return null;
+            return json({ success: true , message: "Configuración guardada con éxito" });
+        } catch (error: Error | any) {
+            return json({ success :false, message: error?.message }, { status: 500 });
+
+        };
     };
+    loader = async ({ request }: LoaderFunctionArgs) => {
+        const { admin } = await authenticate.admin(request);
+
+        const settings: Record<string, string> = {
+            ...(await this.onGetData({ admin, settings: {} }))
+        };
+
+        return settings;
+    };
+    action = async ({ request, ...props }: ActionFunctionArgs) => {
+        const { admin } = await authenticate.admin(request);
+        return await this.onSaveData({ admin, request, ...props });
+    };
+
 }
 
 
