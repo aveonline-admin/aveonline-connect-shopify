@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
-import { useFetcher } from "@remix-run/react";
+import { useFetcher, useLoaderData } from "@remix-run/react";
 import {
   Page,
   Layout,
@@ -25,11 +25,18 @@ import {
   useData,
 } from "fenextjs";
 import { FormAuth } from "app/components/form/auth";
+import { GraphqlAuth } from "app/graphql/auth";
+
+const Auth = new GraphqlAuth(); 
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  await authenticate.admin(request);
+  const { admin } = await authenticate.admin(request);
 
-  return null;
+  const settings: Record<string, string> = {
+    ...(await Auth.onGetData({admin,settings:{}}))
+  };
+
+  return settings; // 👉 lo mandamos al componente
 };
 
 // export const action = async ({ request }: ActionFunctionArgs) => {
@@ -102,72 +109,14 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 //   };
 // };
 
-export const action = async ({ request }: ActionFunctionArgs) => {
+export const action = async ({ request ,...props}: ActionFunctionArgs) => {
   const { admin } = await authenticate.admin(request);
-  const form = await request.formData();
-
-  if (form.get("_action") === "saveConfig") {
-    const active = form.get("active");
-    const user = form.get("user");
-    const password = form.get("password");
-
-    // 1. Obtener el ID de instalación de la app
-    const respond = await admin.graphql(`
-      query {
-        currentAppInstallation { id }
-      }
-    `);
-    const result = await respond.json();
-    const data = result?.data;
-
-    const installId = data.currentAppInstallation.id;
-
-    // 2. Guardar los metafields (usuario y contraseña)
-
-    await admin.graphql(
-      `mutation setAppData($metafields: [MetafieldsSetInput!]!) {
-        metafieldsSet(metafields: $metafields) {
-          metafields { id namespace key value }
-          userErrors { field message }
-        }
-      }`,
-      {
-        variables: {
-          metafields: [
-            {
-              ownerId: installId,
-              namespace: "app_settings",
-              key: "active",
-              value: active ? "true" : "false",
-              type: "boolean",
-            },
-            {
-              ownerId: installId,
-              namespace: "app_settings",
-              key: "user",
-              value: user,
-              type: "single_line_text_field",
-            },
-            {
-              ownerId: installId,
-              namespace: "app_settings",
-              key: "password",
-              value: password,
-              type: "single_line_text_field",
-            },
-          ],
-        },
-      }
-    );
-
-    return { success: true };
-  }
-
-  return null;
+  return await Auth.onSaveData({ admin, request,...props });
 };
 
 
 export default function Index() {
+  const settings = useLoaderData<typeof loader>();
   // const fetcher = useFetcher<typeof action>();
 
   // const shopify = useAppBridge();
@@ -200,6 +149,7 @@ export default function Index() {
             <BlockStack gap="500">
               <Box>
                 <BlockStack gap="200">
+                  {JSON.stringify(settings, null, 2)}
                   <Title tag="h5">
                     Aveonline
                   </Title>
