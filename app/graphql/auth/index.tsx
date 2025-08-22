@@ -2,7 +2,8 @@ import { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { AdminApiContextWithoutRest } from "node_modules/@shopify/shopify-app-remix/dist/ts/server/clients";
 import { authenticate } from "../../shopify.server";
 import { json } from "@remix-run/node";
-
+import { AveApi } from "aveonline"
+import { Session } from "@shopify/shopify-app-remix/server";
 
 export interface onGetDataProps {
     admin: AdminApiContextWithoutRest
@@ -11,6 +12,7 @@ export interface onGetDataProps {
 
 export interface onSaveDataProps extends ActionFunctionArgs {
     admin: AdminApiContextWithoutRest
+    session: Session
 }
 export class GraphqlAuth {
     private KEY = "app_auth"
@@ -41,16 +43,35 @@ export class GraphqlAuth {
         return settings;
     };
 
-    onSaveData = async ({ admin, request }: onSaveDataProps) => {
-        const form = await request.formData();
+    onSaveData = async ({ admin, request, session }: onSaveDataProps) => {
         try {
+            const form = await request.formData();
             const active = form.get("active");
             const user = form.get("user");
             const password = form.get("password");
+            const token = session.accessToken
 
             if (!user) {
                 throw new Error("El usuario es requerido");
             }
+            if (!password) {
+                throw new Error("La contraseña es requerida");
+            }
+            console.log({
+                user,
+                password,
+                token
+            });
+            const api = new AveApi({
+                user: user.toString(),
+                password: password.toString(),
+            })
+            await api.onLoad();
+            console.log({
+                user: api.user
+            });
+
+
             // 1. Obtener el ID de instalación de la app
             const respond = await admin.graphql(`
                 query {
@@ -99,9 +120,9 @@ export class GraphqlAuth {
                     },
                 }
             );
-            return json({ success: true , message: "Configuración guardada con éxito" });
+            return json({ success: true, message: "Configuración guardada con éxito" });
         } catch (error: Error | any) {
-            return json({ success :false, message: error?.message }, { status: 500 });
+            return json({ success: false, message: error?.message }, { status: 500 });
 
         };
     };
@@ -115,8 +136,8 @@ export class GraphqlAuth {
         return settings;
     };
     action = async ({ request, ...props }: ActionFunctionArgs) => {
-        const { admin } = await authenticate.admin(request);
-        return await this.onSaveData({ admin, request, ...props });
+        const { admin, session } = await authenticate.admin(request);
+        return await this.onSaveData({ admin, request, session, ...props });
     };
 
 }

@@ -3,7 +3,7 @@
 client_id = "04f9e383c62d9c03fc7db46b48100048"
 name = "aveonline-connect"
 handle = "aveonline-connect"
-application_url = "https://colleague-filling-disclosure-ten.trycloudflare.com"
+application_url = "https://coaches-cottage-hanging-providers.trycloudflare.com"
 embedded = true
 
 [build]
@@ -26,7 +26,7 @@ api_version = "2025-07"
 scopes = "write_products"
 
 [auth]
-redirect_urls = ["https://colleague-filling-disclosure-ten.trycloudflare.com/auth/callback", "https://colleague-filling-disclosure-ten.trycloudflare.com/auth/shopify/callback", "https://colleague-filling-disclosure-ten.trycloudflare.com/api/auth/callback"]
+redirect_urls = ["https://coaches-cottage-hanging-providers.trycloudflare.com/auth/callback", "https://coaches-cottage-hanging-providers.trycloudflare.com/auth/shopify/callback", "https://coaches-cottage-hanging-providers.trycloudflare.com/api/auth/callback"]
 
 [pos]
 embedded = false
