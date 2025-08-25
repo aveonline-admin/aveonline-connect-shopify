@@ -1,5 +1,5 @@
 import { FenextjsValidator } from "fenextjs-validator";
-import { IFormAuth } from "./interface";
+import type { IFormAuth } from "./interface";
 
 export const FormAuthValidator = FenextjsValidator<IFormAuth>()
     .setName("FormAuth")

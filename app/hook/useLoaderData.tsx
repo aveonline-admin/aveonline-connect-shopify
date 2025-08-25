@@ -1,4 +1,3 @@
-
 import { useLoaderData as useLoaderDataReact } from "@remix-run/react";
 
 export const useLoaderData = () => {
@@ -10,6 +9,6 @@ export const useLoaderData = () => {
         } else if (settings[key] === "false") {
             settings[key] = false;
         }
-    })
-    return settings
-}
+    });
+    return settings;
+};

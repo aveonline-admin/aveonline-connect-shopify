@@ -1,5 +1,5 @@
 export interface IFormAuth {
-  active: boolean;
-  user: string;
-  password: string;
+    active: boolean;
+    user: string;
+    password: string;
 }
