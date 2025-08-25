@@ -41,7 +41,7 @@ export const FormAuth = ({ ...props }: FormAuthProps) => {
                 </Box>
                 <Box>
                     <BlockStack gap="200">
-                        <Title tag="h3">Usuario</Title>
+                        <Title tag="h3">Configuración</Title>
                         <InputText
                             name="user"
                             label="Usuario"
