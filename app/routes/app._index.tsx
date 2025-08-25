@@ -22,6 +22,9 @@ export default function Index() {
                 </button> */}
             </TitleBar>
             <BlockStack gap="500">
+                <Box className="">
+                    ⚠️ En caso de cambiar el domino de la tienda, es necesario volver a configurar el usuario y contraseña.
+                </Box>
                 <Layout>
                     <Layout.Section>
                         <FormAuth defaultValue={(settings ?? {}) as any} />
