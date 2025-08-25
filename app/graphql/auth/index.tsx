@@ -4,6 +4,7 @@ import { authenticate } from "../../shopify.server";
 import { json } from "@remix-run/node";
 import { AveApi } from "aveonline"
 import { Session } from "@shopify/shopify-app-remix/server";
+import { onAddAllWebhooks } from "app/webhook";
 
 export interface onGetDataProps {
     admin: AdminApiContextWithoutRest
@@ -49,7 +50,8 @@ export class GraphqlAuth {
             const active = form.get("active");
             const user = form.get("user");
             const password = form.get("password");
-            const token = session.accessToken
+            const token = session.accessToken ?? ''
+            const shop = session.shop;
 
             if (!user) {
                 throw new Error("El usuario es requerido");
@@ -60,6 +62,7 @@ export class GraphqlAuth {
             console.log({
                 user,
                 password,
+                shop,
                 token
             });
             const api = new AveApi({
@@ -70,6 +73,14 @@ export class GraphqlAuth {
             console.log({
                 user: api.user
             });
+            if (api?.user?.token) {
+                const resultWebHook = await onAddAllWebhooks({
+                    token,
+                    shop
+                })
+                console.log({ resultWebHook });
+
+            }
 
 
             // 1. Obtener el ID de instalación de la app
