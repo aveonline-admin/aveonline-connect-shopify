@@ -3,7 +3,7 @@
 client_id = "04f9e383c62d9c03fc7db46b48100048"
 name = "aveonline-connect"
 handle = "aveonline-connect"
-application_url = "https://pressing-butterfly-duncan-shopzilla.trycloudflare.com"
+application_url = "https://jump-rules-helmet-leaders.trycloudflare.com"
 embedded = true
 
 
@@ -76,7 +76,7 @@ read_legal_policies,write_legal_policies
 """
 
 [auth]
-redirect_urls = ["https://pressing-butterfly-duncan-shopzilla.trycloudflare.com/auth/callback", "https://pressing-butterfly-duncan-shopzilla.trycloudflare.com/auth/shopify/callback", "https://pressing-butterfly-duncan-shopzilla.trycloudflare.com/api/auth/callback"]
+redirect_urls = ["https://jump-rules-helmet-leaders.trycloudflare.com/auth/callback", "https://jump-rules-helmet-leaders.trycloudflare.com/auth/shopify/callback", "https://jump-rules-helmet-leaders.trycloudflare.com/api/auth/callback"]
 
 [pos]
 embedded = false
