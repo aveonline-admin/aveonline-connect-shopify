@@ -3,7 +3,7 @@
 client_id = "04f9e383c62d9c03fc7db46b48100048"
 name = "aveonline-connect"
 handle = "aveonline-connect"
-application_url = "https://ro-calculate-spray-writers.trycloudflare.com"
+application_url = "https://accepts-justice-advised-simultaneously.trycloudflare.com"
 embedded = true
 
 
@@ -76,7 +76,7 @@ read_legal_policies,write_legal_policies
 """
 
 [auth]
-redirect_urls = ["https://ro-calculate-spray-writers.trycloudflare.com/auth/callback", "https://ro-calculate-spray-writers.trycloudflare.com/auth/shopify/callback", "https://ro-calculate-spray-writers.trycloudflare.com/api/auth/callback"]
+redirect_urls = ["https://accepts-justice-advised-simultaneously.trycloudflare.com/auth/callback", "https://accepts-justice-advised-simultaneously.trycloudflare.com/auth/shopify/callback", "https://accepts-justice-advised-simultaneously.trycloudflare.com/api/auth/callback"]
 
 [pos]
 embedded = false
