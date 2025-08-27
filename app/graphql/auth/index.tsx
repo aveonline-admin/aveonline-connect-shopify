@@ -51,6 +51,7 @@ export class GraphqlAuth {
             const active = form.get("active");
             const user = form.get("user");
             const password = form.get("password");
+            const id_font = form.get("id_font");
             const token = session.accessToken ?? "";
             const shop = session.shop;
 
@@ -81,9 +82,10 @@ export class GraphqlAuth {
                 });
                 console.log({ resultWebHook });
                 const resultSaveToken = await api.shopify.onSaveToken({
-                    idempresa: api.user.id_empresa,
+                    idempresa: api.user.idempresa,
                     token: api.user.token,
                     "x-shopify-shop-domain": shop,
+                    id_font,
                 });
                 console.log({ resultSaveToken });
             }
