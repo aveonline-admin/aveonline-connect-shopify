@@ -52,9 +52,12 @@ export class GraphqlAuth {
             const active = form.get("active");
             const user = form.get("user");
             const password = form.get("password");
-            let id_font = form.get("id_font")
-                ? parseNumber(`${form.get("id_font")}`)
-                : undefined;
+            let id_font: number | string | undefined = `${form.get("id_font")}`;
+            if (id_font == "" || id_font == undefined || id_font == `undefined` || id_font == "-1") {
+                id_font = undefined
+            } else {
+                id_font = parseNumber(id_font)
+            }
             const token = session.accessToken ?? "";
             const shop = session.shop;
 
@@ -92,7 +95,7 @@ export class GraphqlAuth {
                     "x-shopify-shop-domain": shop,
                     id_font,
                 });
-                // id_font = resultSaveToken.data.id;
+                id_font = resultSaveToken.data.id;
                 console.log({ resultSaveToken });
             }
 
@@ -144,7 +147,7 @@ export class GraphqlAuth {
                                 ownerId: installId,
                                 namespace: this.KEY,
                                 key: "id_font",
-                                value: id_font,
+                                value: id_font?.toString() ?? "-1",
                                 type: "number_integer",
                             },
                         ],
