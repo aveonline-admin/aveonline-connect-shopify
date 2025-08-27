@@ -70,6 +70,7 @@ export class GraphqlAuth {
                 shop,
                 token,
             });
+            
             const api = new AveApi({
                 user: user.toString(),
                 password: password.toString(),
