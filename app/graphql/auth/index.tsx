@@ -5,6 +5,7 @@ import { authenticate } from "../../shopify.server";
 import { AveApi } from "aveonline";
 import type { Session } from "@shopify/shopify-app-remix/server";
 import { onAddAllWebhooks } from "app/webhook";
+import { parseNumber } from "fenextjs";
 
 export interface onGetDataProps {
     admin: AdminApiContextWithoutRest;
@@ -51,7 +52,7 @@ export class GraphqlAuth {
             const active = form.get("active");
             const user = form.get("user");
             const password = form.get("password");
-            const id_font = form.get("id_font");
+            let id_font = parseNumber(`${form.get("id_font")}`);
             const token = session.accessToken ?? "";
             const shop = session.shop;
 
@@ -87,6 +88,7 @@ export class GraphqlAuth {
                     "x-shopify-shop-domain": shop,
                     id_font,
                 });
+                id_font = resultSaveToken.data.id;
                 console.log({ resultSaveToken });
             }
 
@@ -133,6 +135,13 @@ export class GraphqlAuth {
                                 key: "password",
                                 value: password,
                                 type: "single_line_text_field",
+                            },
+                            {
+                                ownerId: installId,
+                                namespace: this.KEY,
+                                key: "id_font",
+                                value: id_font,
+                                type: "number_integer",
                             },
                         ],
                     },
