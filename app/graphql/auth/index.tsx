@@ -80,6 +80,12 @@ export class GraphqlAuth {
                     shop,
                 });
                 console.log({ resultWebHook });
+                const resultSaveToken = await api.shopify.onSaveToken({
+                    idempresa: api.user.id_empresa,
+                    token: api.user.token,
+                    "x-shopify-shop-domain": shop,
+                });
+                console.log({ resultSaveToken });
             }
 
             // 1. Obtener el ID de instalación de la app
