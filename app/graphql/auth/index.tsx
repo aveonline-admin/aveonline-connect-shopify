@@ -52,7 +52,7 @@ export class GraphqlAuth {
             const active = form.get("active");
             const user = form.get("user");
             const password = form.get("password");
-            let id_font = parseNumber(`${form.get("id_font")}`);
+            let id_font = form.get("id_font") ? parseNumber(`${form.get("id_font")}`) : undefined ;
             const token = session.accessToken ?? "";
             const shop = session.shop;
 
@@ -88,7 +88,7 @@ export class GraphqlAuth {
                     "x-shopify-shop-domain": shop,
                     id_font,
                 });
-                id_font = resultSaveToken.data.id;
+                // id_font = resultSaveToken.data.id;
                 console.log({ resultSaveToken });
             }
 
@@ -152,6 +152,12 @@ export class GraphqlAuth {
                 message: "Configuración guardada con éxito",
             });
         } catch (error: Error | any) {
+            console.log({
+                message: error?.message,
+                stack: error?.stack,
+                error,
+            });
+            
             return json(
                 { success: false, message: error?.message },
                 { status: 500 },
