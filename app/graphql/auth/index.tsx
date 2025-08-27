@@ -72,6 +72,7 @@ export class GraphqlAuth {
             });
 
             const api = new AveApi({
+                typeAuth:"authenticate2",
                 user: user.toString(),
                 password: password.toString(),
             });
