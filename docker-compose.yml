@@ -1,0 +1,9 @@
+services:
+  aveonline-connect-shoppify:
+    build: .
+    image: connect-shoppify:latest  # <-- ¡Nueva línea clave!
+    ports:
+      - 3007:3000
+    # volumes:
+    #   - .:/app
+    restart: always
