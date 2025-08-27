@@ -3,7 +3,7 @@
 client_id = "04f9e383c62d9c03fc7db46b48100048"
 name = "aveonline-connect"
 handle = "aveonline-connect"
-application_url = "https://magical-refine-standard-favourite.trycloudflare.com"
+application_url = "https://stood-kinda-fairy-toxic.trycloudflare.com"
 embedded = true
 
 
@@ -76,7 +76,7 @@ read_legal_policies,write_legal_policies
 """
 
 [auth]
-redirect_urls = ["https://magical-refine-standard-favourite.trycloudflare.com/auth/callback", "https://magical-refine-standard-favourite.trycloudflare.com/auth/shopify/callback", "https://magical-refine-standard-favourite.trycloudflare.com/api/auth/callback"]
+redirect_urls = ["https://stood-kinda-fairy-toxic.trycloudflare.com/auth/callback", "https://stood-kinda-fairy-toxic.trycloudflare.com/auth/shopify/callback", "https://stood-kinda-fairy-toxic.trycloudflare.com/api/auth/callback"]
 
 [pos]
 embedded = false
