@@ -52,7 +52,9 @@ export class GraphqlAuth {
             const active = form.get("active");
             const user = form.get("user");
             const password = form.get("password");
-            let id_font = form.get("id_font") ? parseNumber(`${form.get("id_font")}`) : undefined ;
+            let id_font = form.get("id_font")
+                ? parseNumber(`${form.get("id_font")}`)
+                : undefined;
             const token = session.accessToken ?? "";
             const shop = session.shop;
 
@@ -157,7 +159,7 @@ export class GraphqlAuth {
                 stack: error?.stack,
                 error,
             });
-            
+
             return json(
                 { success: false, message: error?.message },
                 { status: 500 },

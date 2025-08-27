@@ -27,14 +27,16 @@ export default function Index() {
                     volver a configurar el usuario y contraseña.
                 </Box>
                 <Box className="">
-                    ⚠️ Tenga en cuenta que para que la configuracion sea correcta debe poseer una agenia en{" "}
+                    ⚠️ Tenga en cuenta que para que la configuracion sea
+                    correcta debe poseer una agenia en{" "}
                     <Link
                         url="https://avemetrics.aveonline.co/"
                         target="_blank"
                         removeUnderline
                     >
                         Avemetrics
-                    </Link>.
+                    </Link>
+                    .
                 </Box>
                 <Layout>
                     <Layout.Section>
