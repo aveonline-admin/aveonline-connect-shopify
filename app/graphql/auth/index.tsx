@@ -98,7 +98,7 @@ export class GraphqlAuth {
                     idempresa: api.user.idempresa,
                     token: api.user.token,
                     "x-shopify-shop-domain": shop,
-                    id_font,
+                    modify: id_font,
                 });
                 id_font = resultSaveToken.data.id;
                 console.log({ resultSaveToken });
