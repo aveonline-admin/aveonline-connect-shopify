@@ -10,6 +10,8 @@ ENV NODE_ENV=production
 
 COPY package.json package-lock.json* ./
 
+RUN mkdir -p prisma && : > prisma/dev.sqlite
+
 RUN npm install
 # Remove CLI packages since we don't need them in production by default.
 # Remove this line if you want to run CLI commands in your container.
