@@ -1,7 +1,16 @@
 services:
   aveonline-connect-shoppify:
     build: .
-    image: connect-shoppify:latest  # <-- ¡Nueva línea clave!
+    # env_file:
+    #   - .env
+    environment:
+      SHOPIFY_API_KEY: ${SHOPIFY_API_KEY}
+      SHOPIFY_API_SECRET: ${SHOPIFY_API_SECRET}
+      SHOPIFY_SCOPES: ${SHOPIFY_SCOPES}
+      SHOPIFY_APP_URL: ${SHOPIFY_APP_URL}
+      SCOPES: ${SCOPES}
+      NODE_ENV: production
+    image: connect-shoppify  # <-- ¡Nueva línea clave!
     ports:
       - 3007:3000
     # volumes:
