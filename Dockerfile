@@ -4,7 +4,7 @@ RUN apk add --no-cache openssl
 
 EXPOSE 3000
 
-WORKDIR /aveonline-connect-shopify
+WORKDIR /aveonline_connect_shopify
 
 ENV NODE_ENV=production
 
