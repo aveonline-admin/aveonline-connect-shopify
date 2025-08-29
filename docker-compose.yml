@@ -13,6 +13,9 @@ services:
     image: connect-shoppify  # <-- ¡Nueva línea clave!
     ports:
       - 3007:3000
-    # volumes:
-    #   - .:/app
+    volumes:
+      - .:/aveonline-connect-shopify
+      - node_modules:/aveonline-connect-shopify/node_modules
     restart: always
+volumes:
+  node_modules:
