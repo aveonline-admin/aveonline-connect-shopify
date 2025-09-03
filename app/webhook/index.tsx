@@ -1,4 +1,4 @@
-export const WEBHOOK_URL = "https://franciscoblanco.vercel.app/api/cache?id=";
+export const WEBHOOK_URL = "https://api.aveonline.co/api-shopify/public/api/";
 
 export const ListWebhooks = [
     "products/create",

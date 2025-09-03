@@ -9,3 +9,6 @@ sudo docker compose down --volumes --remove-orphans
 
 sudo docker compose build --no-cache
 sudo docker compose up -d --force-recreate
+
+
+Flux Checkout Versión 2.20.1
