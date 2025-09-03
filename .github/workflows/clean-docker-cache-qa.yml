@@ -1,0 +1,20 @@
+name: Clean Docker Cache QA
+
+on:
+  schedule:
+    - cron: '30 13 * * 2'
+jobs:
+  clean_docker_builder:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Limpiar la caché del builder de Docker
+        uses: appleboy/ssh-action@master
+        with:
+          command_timeout: 20m
+          host: ${{ vars.ERP_HOST }}
+          username: ${{ vars.DEFAULT_DEPLOY_USER }}
+          key: ${{ secrets.ERP_PRIVATE_KEY }}
+          port: 22
+          script: |
+            cd /home
+            docker builder prune -a --force

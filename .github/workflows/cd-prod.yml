@@ -1,0 +1,54 @@
+name: Deploy Producto
+
+on:
+    pull_request:
+        branches: ['master']
+        types:
+            - closed
+
+jobs:
+    merge_changes_into_master_branch:
+        if: github.event.pull_request.merged == true
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - name: Despliegue al entorno de produccion
+              uses: appleboy/ssh-action@master
+              with:
+                  command_timeout: 20m
+                  host: ${{ vars.APP_PRODUCT_HOST }}
+                  username: ${{ vars.DEFAULT_DEPLOY_USER}}
+                  key: ${{ secrets.APP_PRODUCT_PRIVATE_KEY }}
+                  port: 22
+                  envs: NEXTAUTH_URL_PROD, NEXTAUTH_SECRET, GOOGLE_ID, GOOGLE_SECRET, NEXT_PUBLIC_META_PIXEL_ID, NEXT_PUBLIC_GOOGLE_ANALYTIC_ID, NEXT_PUBLIC_GOOGLE_TAG_ID_PROD, NEXT_PUBLIC_API_MOCKING, NEXT_PUBLIC_SERVER_API_LOCAL, NEXT_PUBLIC_APP, NEXT_PUBLIC_APP_MODULES, NEXT_PUBLIC_MOOVA, NEXT_PUBLIC_FILES, NEXT_PUBLIC_ONBOARDING, NEXT_PUBLIC_FEE_PAY_PLANS, NEXT_PUBLIC_ONBOARDING_PASSWORD, NEXT_PUBLIC_INFO_GUIDES, NEXT_PUBLIC_PICKUP, NEXT_PUBLIC_COSTUMER_DETAIL, NEXT_PUBLIC_API_MAPS, NEXT_PUBLIC_API_LOGISTICS, NEXT_PUBLIC_API_CITIES, NEXT_PUBLIC_ONBOARDING_BASE, NEXT_PUBLIC_DATA_TREATMENT,NEXT_PUBLIC_API_COLLECTIONS, NEXT_PUBLIC_API_RECIPIENT, NEXT_PUBLIC_DEVOLUTIONS, NEXT_PUBLIC_API_AVESTOCK, NEXT_PUBLIC_API_MASTER_WALLET, NEXT_PUBLIC_WALLET, NEXT_PUBLIC_API_ADVANCES,NEXT_PUBLIC_API_OFICINAS, LOOKER_API_BASE, LOOKER_CLIENT_ID, LOOKER_CLIENT_SECRET, NEXT_PUBLIC_URL_APP, NEXT_PUBLIC_URL_ONBOARDING, NEXT_PUBLIC_URL_aveonline-connect-shopify_API, NEXT_PUBLIC_URL_aveonline-connect-shopify_BASE, NEXT_PUBLIC_URL_BASE_EMAIL_MARCA_BLANCA, NEXT_PUBLIC_URL_BASE_EMAIL_AGENCIA, NEXT_PUBLIC_URL_BASE_EMAIL_CLIENT, NEXT_PUBLIC_URL_EMAIL_FORGOT_PASSWORD, NEXT_PUBLIC_KEY_PASSWORD, NEXT_PUBLIC_URL_FRONT, NEXT_PUBLIC_AVE_WOMPI_SANBOX, NEXT_PUBLIC_AVE_WOMPI_SHOW_CONFIG, NEXT_PUBLIC_URL_ADD_FONTS, NEXT_PUBLIC_URL_API,LOOKER_API_BASE, LOOKER_CLIENT_ID, LOOKER_CLIENT_SECRET
+
+                  script: |
+                      cd /home
+
+                      if ! [ -d 'aveonline-connect-shopify' ]
+
+                      then
+                        git clone git@github.com:aveonline-admin/aveonline-connect-shopify.git aveonline-connect-shopify
+                      fi
+
+                      cd aveonline-connect-shopify
+                      git config pull.rebase false
+                      git checkout master
+                      git pull origin master
+
+                      if  [ -f '.env' ]
+                      then
+                          rm -rf .env
+                      fi
+
+                      touch .env
+
+                      echo "SHOPIFY_API_KEY=${{ secrets.SHOPIFY_API_KEY }}" >> .env
+                      echo "SHOPIFY_API_SECRET=${{ secrets.SHOPIFY_API_SECRET }}" >> .env
+                      echo "SHOPIFY_SCOPES=${{ secrets.SHOPIFY_SCOPES }}" >> .env
+                      echo "SHOPIFY_APP_URL=${{ secrets.SHOPIFY_APP_URL }}" >> .env
+                      echo "scopes=${{ secrets.SCOPES }}" >> .env
+
+                      cat .env
+
+                      docker compose up app --build -d
